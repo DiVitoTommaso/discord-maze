@@ -67,8 +67,8 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or("+"))
 def draw(game, status):
     blank = str(discord.utils.get(bot.emojis, name="v_"))
     message = ""
-    for i in range(game.playerId[0] - 5, game.playerId[0] + 5):
-        for j in range(game.playerId[1] - 5, game.playerId[1] + 5):
+    for i in range(game.player[0] - 5, game.player[0] + 5):
+        for j in range(game.player[1] - 5, game.player[1] + 5):
             if i < 0 or j < 0 or i >= len(game.map) or j >= len(game.map[i]):
                 message += blank
                 continue
@@ -114,16 +114,16 @@ async def on_reaction_add(reaction, user):
         return
 
     if str(reaction) == "⬅️":
-        game.move(game.playerId[0], game.playerId[1] - 1)
+        game.move(game.player[0], game.player[1] - 1)
 
     if str(reaction) == "⬆️":
-        game.move(game.playerId[0] - 1, game.playerId[1])
+        game.move(game.player[0] - 1, game.player[1])
 
     if str(reaction) == "⬇️":
-        game.move(game.playerId[0] + 1, game.playerId[1])
+        game.move(game.player[0] + 1, game.player[1])
 
     if str(reaction) == "➡️":
-        game.move(game.playerId[0], game.playerId[1] + 1)
+        game.move(game.player[0], game.player[1] + 1)
 
     await games[user.id][1].remove_reaction(str(reaction), user)
     if str(reaction) == "🛑":
@@ -138,7 +138,7 @@ async def on_reaction_add(reaction, user):
         await games[user.id][1].edit(content=draw(game, f"\nOwner: {user.name}\nStatus: PLAYING"))
 
 
-bot.run('YOUR TOKEN')
+bot.run('-')
 
 
 
